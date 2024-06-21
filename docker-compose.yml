@@ -1,0 +1,25 @@
+# For mysql-phpmyadmin (c)carlapdl 2024
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: [ your password ]
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqlbookreviewdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    links:
+      - mysql
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+volumes:
+  mysqlbookreviewdata:
