@@ -20,10 +20,9 @@ class ReviewFactory extends Factory
             'book_id' => null, //should not be null if reviews are to be filled up via data entry
             'review' => fake()->paragraph(),
             'rating' => fake()->numberBetween(1, 5),
-            'updated_at'=> fake()->dateTimeBetween('created_at', 'now')
-            /*'updated_at' => function (array $attributes) {
-                return fake()->dateTimeBetween($attributes['created_at']);
-            } */
+            'created_at' => fake()->dateTimeBetween('-1 years'),
+            'updated_at'=> fake()->dateTimeBetween('now')
+            //'updated_at'=> fake()->dateTimeBetween('created_at', 'now')
         ];
     }
 
