@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn {
-    @apply bg-white rounded-md px-4 py-2 text-center font-medium text-sky-500 shadow-sm ring-1 ring-sky-700/10 hover:bg-sky-200 h-10;
+    @apply bg-white rounded-md px-4 py-2 text-center font-medium text-sky-500 shadow-sm ring-1 ring-sky-500 hover:bg-sky-200 h-10;
   }
 
   .input {
@@ -11,15 +11,15 @@
   }
 
   .filter-container {
-    @apply mb-4 flex space-x-2 rounded-md bg-slate-100 p-2;
+    @apply mb-4 flex space-x-2 rounded-md bg-sky-100 p-2;
   }
 
   .filter-item {
-    @apply flex w-full items-center justify-center rounded-md px-4 py-2 text-center text-sm font-medium text-slate-500;
+    @apply flex w-full items-center justify-center rounded-md px-4 py-2 text-center text-sm uppercase font-medium text-slate-500 hover:underline;
   }
 
   .filter-item-active {
-    @apply bg-white shadow-sm text-slate-800 flex w-full items-center justify-center rounded-md px-4 py-2 text-center text-sm font-medium;
+    @apply bg-white shadow-sm text-slate-800 flex w-full items-center justify-center rounded-md px-4 py-2 text-center text-sm uppercase font-bold;
   }
 
   .book-item {
