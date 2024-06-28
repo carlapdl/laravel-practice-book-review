@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="mb-10 text-2xl">Books</h1>
+<h1 class="mb-10 text-4xl uppercase">Books</h1>
 
-<form></form>
+<form method="GET" action="{{ route('books.index') }}" class="mb-5 flex items-center space-x-1">
+    @csrf
+    <input class="input h-10" type="text" name="title" id="title" placeholder="Search for a Book Title" value="{{ request('title') }}" />
+    <button class="btn h-10"  type="submit">Search</button>
+    <a href="{{ route('books.index') }}" class="btn h-10">Clear</a>
+</form>
 
 <!-- Books List -->
 <ul>

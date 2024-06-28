@@ -8,13 +8,16 @@ use App\Models\Book;
 class BookController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * NAME: index
+     * DESCRIPTION:
+     * - Display the list of books
+     * - if title is provided, search function is used
      */
     public function index(Request $request)
     {
         $title = $request->input('title');
 
-        //if $title is not empty, perform the arrow function (fn)
+        //if $title is not empty, perform the arrow function (fn) for search
         $books = Book::when(
             $title, 
             fn($query, $title) => $query->title($title)

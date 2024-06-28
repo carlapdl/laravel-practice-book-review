@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn {
-    @apply bg-white rounded-md px-4 py-2 text-center font-medium text-slate-500 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-50 h-10;
+    @apply bg-white rounded-md px-4 py-2 text-center font-medium text-sky-500 shadow-sm ring-1 ring-sky-700/10 hover:bg-sky-200 h-10;
   }
 
   .input {
