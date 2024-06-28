@@ -76,4 +76,56 @@ class Book extends Model
             $query->whereBetween('created_at',[$from, $to]);
         }  
     }
+
+    /**
+     * NAME: scopePopularLastMonth
+     * DESCRIPTION:
+     * - local query scope for getting previous month's popular books
+     * - books with at least 2 reviews
+     */
+    public function scopePopularLastMonth(Builder $query): Builder {
+        //now()->subMonth : get current date and subtract the month to get the previous month
+        return $query->popular(now()->subMonth(), now())
+            ->highestRated(now()->subMonth(), now())
+            ->minReviews(2); //books with at least 2 reviews
+    }
+
+    /**
+     * NAME: scopePopularLast6Months
+     * DESCRIPTION:
+     * - local query scope for getting the popular books for the last 6 months
+     * - books with at least 5 reviews
+     */
+    public function scopePopularLast6Months(Builder $query): Builder {
+        //now()->subMonths : get current date, specify the number of months in subMonths to get the previous 6th month
+        return $query->popular(now()->subMonths(6), now())
+            ->highestRated(now()->subMonths(6), now())
+            ->minReviews(5); //books with at least 5 reviews
+    }
+
+    /**
+     * NAME: scopeHighestRatedLastMonth
+     * DESCRIPTION:
+     * - local query scope for getting the highest rated books of the previous month
+     * - books with at least 2 reviews
+     */
+    public function scopeHighestRatedLastMonth(Builder $query): Builder {
+        //now()->subMonth : get current date and subtract the month to get the previous month
+        return $query->highestRated(now()->subMonth(), now())
+            ->popular(now()->subMonth(), now())
+            ->minReviews(2); //books with at least 2 reviews
+    }
+
+    /**
+     * NAME: scopeHighestRatedLast6Months
+     * DESCRIPTION:
+     * - local query scope for getting the highest rated books for the last 6 months
+     * - books with at least 5 reviews
+     */
+    public function scopeHighestRatedLast6Months(Builder $query): Builder {
+        //now()->subMonths : get current date, specify the number of months in subMonths to get the previous 6th month
+        return $query->highestRated(now()->subMonths(6), now())
+            ->popular(now()->subMonths(6), now())
+            ->minReviews(5); //books with at least 5 reviews
+    }
 }

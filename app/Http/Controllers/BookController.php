@@ -12,16 +12,30 @@ class BookController extends Controller
      * DESCRIPTION:
      * - Display the list of books
      * - if title is provided, search function is used
+     * - apply the filters if values are given
      */
     public function index(Request $request)
     {
         $title = $request->input('title');
+        $filter = $request->input('filter');
 
         //if $title is not empty, perform the arrow function (fn) for search
         $books = Book::when(
             $title, 
             fn($query, $title) => $query->title($title)
-        )->get();
+        );
+
+        //match() similar to switch()
+        //get the results based on the filter
+        $books = match($filter){
+            'popular_last_month' => $books->popularLastMonth(),
+            'popular_last_6months' => $books->popularLast6Months(),
+            'highest_rated_last_month' => $books->highestRatedLastMonth(),
+            'highest_rated_last_6months' => $books->highestRatedLast6Months(),
+            default => $books->latest()
+        };
+        
+        $books = $books->get();
 
         return view('books.index', ['books' => $books]);
     }
