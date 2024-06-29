@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="mb-10 text-4xl uppercase">Books</h1>
+<h1 class="mb-10 text-5xl font-extrabold uppercase">Books</h1>
 
 <form method="GET" action="{{ route('books.index') }}" class="mb-5 flex items-center space-x-1">
     @csrf

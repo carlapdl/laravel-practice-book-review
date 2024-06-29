@@ -57,11 +57,13 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * NAME: show
+     * DESCRIPTION:
+     * - display book details and reviews
      */
-    public function show(string $id)
+    public function show(Book $book)
     {
-        //
+        return view('books.show', ['book' => $book]);
     }
 
     /**

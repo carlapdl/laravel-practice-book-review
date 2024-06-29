@@ -22,12 +22,28 @@
     @apply bg-white shadow-sm text-slate-800 flex w-full items-center justify-center rounded-md px-4 py-2 text-center text-sm uppercase font-bold;
   }
 
+  .book-top-info {
+    @apply sticky top-0 rounded-md px-2 py-1 mb-4 leading-6 shadow-md bg-sky-100;
+  }
+
   .book-item {
     @apply text-sm rounded-md bg-white p-4 leading-6 text-slate-900 shadow-md shadow-black/5 ring-1 ring-slate-700/10;
   }
 
+  .book-title-detail {
+    @apply text-3xl font-semibold text-slate-800;
+  }
+
+  .book-rating-detail {
+    @apply text-xl font-medium text-slate-700;
+  }
+
+  .book-review-count-detail {
+    @apply text-xl text-slate-500;
+  }
+
   .book-title {
-    @apply text-lg font-semibold text-slate-800 hover:text-slate-600;
+    @apply text-xl font-semibold text-slate-800 hover:underline;
   }
 
   .book-author {
