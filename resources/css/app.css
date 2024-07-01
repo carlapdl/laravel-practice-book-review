@@ -42,6 +42,10 @@
     @apply text-xl text-slate-500;
   }
 
+  .back-to-list {
+    @apply absolute right-0 underline hover:text-sky-500;
+  }
+
   .book-title {
     @apply text-xl font-semibold text-slate-800 hover:underline;
   }

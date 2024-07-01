@@ -15,9 +15,9 @@
         </div>
       </div>
     </div>
-    <div class="flex mt-4 space-x-80">  
+    <div class="flex mt-4 pr-4">  
         <h2 class="text-xl font-semibold">Reviews</h2>
-        <!--<a class="btn" href=""><< Back to Books List</a>-->
+        <a class="back-to-list" href="{{ route('books.index') }}"><< Back to Books List</a>
     </div>
 </div>
 
