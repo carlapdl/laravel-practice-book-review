@@ -16,4 +16,15 @@ class Review extends Model
         //A review belongs to 1 book
         return $this->belongsTo(Book::class);
     }
+
+    /**
+     * NAME: booted
+     * DESCRIPTION:
+     * - "booted" method for Review model for cache
+     * - if there are changes to a review data (update or delete), remove the previous cache [ forget(cache key name) ]
+     */
+    protected static function booted() {
+        static::updated(fn(Review $review) => cache()->forget('book:'.$review->book_id));
+        static::deleted(fn(Review $review) => cache()->forget('book:'.$review->book_id));
+    }
 }

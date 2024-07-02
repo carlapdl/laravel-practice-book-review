@@ -35,7 +35,11 @@ class BookController extends Controller
             default => $books->latest()
         };
         
-        $books = $books->get();
+        //$books = $books->get();
+
+        //Store in cache ('key name for the cache', store cache duration in seconds, value)
+        $cache_key_name = 'books:'.$filter.':'.$title;
+        $books = cache()->remember($cache_key_name, 3600, fn() => $books->get());
 
         return view('books.index', ['books' => $books]);
     }
@@ -63,11 +67,15 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return view('books.show', [
-            'book' => $book->load([
+        //Store in cache ('key name for the cache', store cache duration in seconds, value)
+        $cache_key_name = 'book:'.$book->id;
+        $book = cache()->remember($cache_key_name, 3600, fn() =>
+            $book->load([
                 'reviews' => fn($query) => $query->latest()
-            ])                
-        ]);
+            ])         
+        );
+
+        return view('books.show', ['book' => $book ]);
     }
 
     /**
