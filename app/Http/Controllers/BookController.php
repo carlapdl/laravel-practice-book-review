@@ -32,14 +32,15 @@ class BookController extends Controller
             'popular_last_6months' => $books->popularLast6Months(),
             'highest_rated_last_month' => $books->highestRatedLastMonth(),
             'highest_rated_last_6months' => $books->highestRatedLast6Months(),
-            default => $books->latest()
+            default => $books->latest()->withAvgRating()->withReviewsCount()
         };
         
         //$books = $books->get();
 
         //Store in cache ('key name for the cache', store cache duration in seconds, value)
         $cache_key_name = 'books:'.$filter.':'.$title;
-        $books = cache()->remember($cache_key_name, 3600, fn() => $books->get());
+        $books = cache()->remember($cache_key_name, 600, fn() => $books->get());
+        //$books = $books->get();
 
         return view('books.index', ['books' => $books]);
     }
@@ -65,14 +66,16 @@ class BookController extends Controller
      * DESCRIPTION:
      * - display book details and reviews
      */
-    public function show(Book $book)
+    public function show(int $id)
     {
         //Store in cache ('key name for the cache', store cache duration in seconds, value)
-        $cache_key_name = 'book:'.$book->id;
+        //$cache_key_name = 'book:'.$book->id;
+        $cache_key_name = 'book:'.$id;
         $book = cache()->remember($cache_key_name, 3600, fn() =>
-            $book->load([
+            //$book->load([
+            Book::with([
                 'reviews' => fn($query) => $query->latest()
-            ])         
+            ])->withAvgRating()->withReviewsCount()->findORFail($id)         
         );
 
         return view('books.show', ['book' => $book ]);

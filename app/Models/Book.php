@@ -27,12 +27,13 @@ class Book extends Model
     }    
 
     /**
-     * NAME: scopePopular
+     * NAME: scopeWithReviewsCount
      * DESCRIPTION:
      * - local query scope for getting the list of books order by most number of reviews
      * - optional parameter(s): $from, $to for the date range
      */
-    public function scopePopular(Builder $query, $from=null, $to=null): Builder {
+    //public function scopePopular(Builder $query, $from=null, $to=null): Builder {
+    public function scopeWithReviewsCount(Builder $query, $from=null, $to=null): Builder {
         //return $query->withCount('reviews')->orderBy('reviews_count', 'desc');
         return $query->withCount([
             'reviews' => fn (Builder $q) => $this->dateRangeFilter($q, $from, $to)
@@ -40,12 +41,13 @@ class Book extends Model
     }    
 
     /**
-     * NAME: scopeHighestRated
+     * NAME: scopeWithAvgRating
      * DESCRIPTION:
      * - local query scope for getting the list of books order by highest rating 
      * - optional parameter(s): $from, $to for date range
      */
-    public function scopeHighestRated(Builder $query, $from=null, $to=null): Builder {
+    //public function scopeHighestRated(Builder $query, $from=null, $to=null): Builder {
+    public function scopeWithAvgRating(Builder $query, $from=null, $to=null): Builder {
         return $query->withAvg(
             ['reviews' => fn (Builder $q) => $this->dateRangeFilter($q, $from, $to)]
             , 'rating'
@@ -85,8 +87,10 @@ class Book extends Model
      */
     public function scopePopularLastMonth(Builder $query): Builder {
         //now()->subMonth : get current date and subtract the month to get the previous month
-        return $query->popular(now()->subMonth(), now())
-            ->highestRated(now()->subMonth(), now())
+        //return $query->popular(now()->subMonth(), now())
+        return $query->WithReviewsCount(now()->subMonth(), now())
+            //->highestRated(now()->subMonth(), now())
+            ->WithAvgRating(now()->subMonth(), now())
             ->minReviews(2); //books with at least 2 reviews
     }
 
@@ -98,8 +102,10 @@ class Book extends Model
      */
     public function scopePopularLast6Months(Builder $query): Builder {
         //now()->subMonths : get current date, specify the number of months in subMonths to get the previous 6th month
-        return $query->popular(now()->subMonths(6), now())
-            ->highestRated(now()->subMonths(6), now())
+        //return $query->popular(now()->subMonths(6), now())
+        return $query->WithReviewsCount(now()->subMonths(6), now())
+            //->highestRated(now()->subMonths(6), now())
+            ->WithAvgRating(now()->subMonths(6), now())
             ->minReviews(5); //books with at least 5 reviews
     }
 
@@ -111,8 +117,10 @@ class Book extends Model
      */
     public function scopeHighestRatedLastMonth(Builder $query): Builder {
         //now()->subMonth : get current date and subtract the month to get the previous month
-        return $query->highestRated(now()->subMonth(), now())
-            ->popular(now()->subMonth(), now())
+        //return $query->highestRated(now()->subMonth(), now())
+        return $query->WithAvgRating(now()->subMonths(), now())
+            //->popular(now()->subMonth(), now())
+            ->WithReviewsCount(now()->subMonths(), now())
             ->minReviews(2); //books with at least 2 reviews
     }
 
@@ -124,8 +132,21 @@ class Book extends Model
      */
     public function scopeHighestRatedLast6Months(Builder $query): Builder {
         //now()->subMonths : get current date, specify the number of months in subMonths to get the previous 6th month
-        return $query->highestRated(now()->subMonths(6), now())
-            ->popular(now()->subMonths(6), now())
+        //return $query->highestRated(now()->subMonths(6), now())
+        return $query->withAvgRating(now()->subMonths(6), now())
+            //->popular(now()->subMonths(6), now())
+            ->WithReviewsCount(now()->subMonths(6), now())
             ->minReviews(5); //books with at least 5 reviews
+    }
+
+    /**
+     * NAME: booted
+     * DESCRIPTION:
+     * - "booted" method for Book model for cache
+     * - if there are changes to a book data (update or delete), remove the previous cache [ forget(cache key name) ]
+     */
+    protected static function booted() {
+        static::updated(fn(Book $book) => cache()->forget('book:'.$book->id));
+        static::deleted(fn(Book $book) => cache()->forget('book:'.$book->id));
     }
 }
