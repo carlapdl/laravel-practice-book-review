@@ -73,3 +73,7 @@
   .reset-link {
     @apply text-slate-500 underline;
   }
+
+  .star-rating {
+    @apply text-yellow-500;
+  }
