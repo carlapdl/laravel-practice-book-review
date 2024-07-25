@@ -15,13 +15,12 @@
           </span>
         </div>
       </div>
-    </div>
-    <div class="flex mt-4">  
-        <h2 class="text-xl font-semibold">Reviews</h2>
-        <a class="back-to-list" href="{{ route('books.index') }}"><< Back to Books List</a>
+    </div>   
+    <div class="flex mt-4 justify-end">  
+      <a class="review-sub-button" href="{{ route('books.review.create', $book) }}">Review this Book</a>
+      <a class="review-sub-button" href="{{ route('books.index') }}">Back to Books List</a>
     </div>
 </div>
-
 <div>
     <ul>
       @forelse ($book->reviews as $review)

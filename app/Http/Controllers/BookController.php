@@ -71,7 +71,7 @@ class BookController extends Controller
         //Store in cache ('key name for the cache', store cache duration in seconds, value)
         //$cache_key_name = 'book:'.$book->id;
         $cache_key_name = 'book:'.$id;
-        $book = cache()->remember($cache_key_name, 3600, fn() =>
+        $book = cache()->remember($cache_key_name, 600, fn() =>
             //$book->load([
             Book::with([
                 'reviews' => fn($query) => $query->latest()

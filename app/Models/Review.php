@@ -21,10 +21,11 @@ class Review extends Model
      * NAME: booted
      * DESCRIPTION:
      * - "booted" method for Review model for cache
-     * - if there are changes to a review data (update or delete), remove the previous cache [ forget(cache key name) ]
+     * - if there are changes to a review data (create, update, delete), remove the previous cache [ forget(cache key name) ]
      */
     protected static function booted() {
         static::updated(fn(Review $review) => cache()->forget('book:'.$review->book_id));
         static::deleted(fn(Review $review) => cache()->forget('book:'.$review->book_id));
+        static::created(fn(Review $review) => cache()->forget('book:'.$review->book_id));
     }
 }
